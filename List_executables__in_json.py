@@ -8,15 +8,15 @@
 
 ## The current output format in json is :
 '''
-{“path”: {
-     “pathname”: “/some/dir”,
-     ”executables”: { 
-          “SHA256checksum”: [ 
-               {“value”:”2be......”},
-               {“value”:”2bc......”}
-	       .....................     
-          ]
-     }
+{"path": {
+	"pathname": "/some/dir",
+	"executables": {
+		"SHA256checksume": [
+			{"value":"2be......"},
+			{"value":"2bc......"},
+			.....................
+		]
+	}
 }}
 '''
 ## Maintainer: David Weng email:weng#email.arizona.edu

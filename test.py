@@ -6,21 +6,6 @@
 ## todo: List the output of the version flag if the tools has one.
 # The question to get the image ID and tag name within a container is posted on the docker help forum.
 
-## The current output format in json is :
-'''
-{“path”: {
-     “pathname”: “/some/dir”,
-     ”executables”: { 
-          “SHA256checksum”: [ 
-               {“value”:”2be......”},
-               {“value”:”2bc......”}
-	       .....................     
-          ]
-     }
-}}
-'''
-## Maintainer: David Weng email:weng#email.arizona.edu
-
 import json
 import subprocess
 import sys
