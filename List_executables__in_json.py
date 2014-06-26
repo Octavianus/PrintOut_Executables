@@ -8,17 +8,19 @@
 
 ## The current output format in json is :
 '''
-{"path": {
-	"pathname": "/some/dir",
-	"executables": {
-		"SHA256checksume": [
-			{"value":"2be......"},
-			{"value":"2bc......"},
-			.....................
-		]
+{"path":[
+	{
+	"filepath":"/path/to/executable",
+	"SHA256":"..."
 	}
-}}
+	{
+	"filepath":"/path/to/executable",
+	"SHA256":"..."
+	}
+	]
+}
 '''
+
 ## Maintainer: David Weng email:weng#email.arizona.edu
 
 import json
@@ -38,9 +40,11 @@ Jfile = open('executables_info.json','a+')
 aRow = None
 prevRow = None
 prevPathName= None
-rowBeginer = "{\"path\":{\"pathname\":"
-rowMiddler = ",\"executables\":{\"SHA256checksum\":["
-rowEnder = "]}}}"
+strpath = str("")
+strsha256 = str("")
+
+rowBeginer = "{\"path\":["
+rowEnder = "]}"
 
 ## (output, err) = process.communicate()
 #The problem with above code is that output, err = p.communicate() will block next statement till ping is completed
@@ -52,23 +56,24 @@ while True:
 		break;	
 	# If there is still have output, write the result into in the following way:
 	if out != '':
-		## filename may be needed?
+		## filename and path name.
+		pathName = os.path.dirname(out)
 		filename = os.path.basename(out)
 		tempHashValue = hashlib.sha256(filename)	
 		shaHashValue = tempHashValue.hexdigest()	
 		strpath = str(out)
 		strsha256 = shaHashValue
-		pathName = os.path.dirname(out)
+		rowMiddler = "{\"filepath\":\"" + strpath  +"\",\"SHA256\":\"" + strsha256 +"\"}"
 		# If the info out last time has not been writen into json file, give the value to current row.
 		if prevRow != None:
 			aRow = prevRow
 			prevRow = None
 	 	#If the previous pathname is the same as the currenct one, write the checksum of executable under this path in json format. 
 		if prevPathName == pathName:
-			aRow += ",{\"value\":\"" + strsha256 + "\"}"
+			aRow += rowMiddler
 		else:	
 			if aRow == None:
-				aRow = rowBeginer + "\""+ pathName + "\"" + rowMiddler + "{\"value\":\"" + strsha256 + "\"}"
+				aRow = rowBeginer + rowMiddler
 				prevRow = None
 			# If this all the executables in this path has been gone through, write out into json file and set record info of previous row.  
 			else:
@@ -76,7 +81,7 @@ while True:
 				aRow = str(aRow) + '\n'
 				Jfile.write(aRow)
 				aRow = None
-				prevRow = rowBeginer + "\""+ pathName + "\"" + rowMiddler + "{\"value\":\"" + strsha256 + "\"}"
+				prevRow = rowBeginer + rowMiddler
 		# Record the previous path name and row for next loop.
 		prevPathName = pathName
 		# Flush the stout buffer before next iteration.
