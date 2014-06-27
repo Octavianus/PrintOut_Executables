@@ -4,17 +4,17 @@ Function:
 List out all the executables that are available inside the container
 print out the executable in the format of json as follow:
 
-{“path”: [
-     {
-     “filepath”: “/path/to/executable”,
-     “SHA256”: “...”
-     } 
-     {
-     “filepath”: “/path/to/executable”,
-     “SHA256”: “...”
-     } 
-     ]
-}
+     {“path”: [
+          {
+          “filepath”: “/path/to/executable”,
+          “SHA256”: “...”
+          } 
+          {
+          “filepath”: “/path/to/executable”,
+          “SHA256”: “...”
+          } 
+          ]
+     }
 
 ====================
 
